@@ -1,0 +1,72 @@
+th{
+    text-align: left;
+    font-weight: initial;
+}
+
+.todoList{
+    width: 600px;
+    border: solid 1px white;
+    margin: auto;
+    margin-top: 150px;
+    box-shadow: 0 0 0 3em #DDD3D3;
+}
+
+.input-group-text{
+    background-color: #F5F5F5 !important;
+    border: 1px solid #F5F5F5 !important;
+}
+
+.mb-3 {
+    margin-bottom: 0rem !important;
+}
+
+.table > :not(:last-child) > :last-child > * {
+    border-bottom-color: white !important;
+}
+
+#container{
+    width: 100%;
+}
+
+#todoListHead{
+    height: 50px;
+     background-color: #fdfdfc;
+}
+
+#date{
+    width: 550px;
+}
+
+#month{
+    margin-left: 60px;
+    margin-top: 20px;
+    font-weight: initial;
+}
+
+#year{
+    margin-left: 60px;
+    font-weight: initial;
+}
+
+#day{
+    font-size: 50px;
+    margin-top: -65px;
+    font-weight: initial;
+}
+
+#dayName{
+    font-size: 30px;
+    font-weight: initial;
+    margin-top: -50px;
+}
+
+#inputBox{
+    margin: 10px;
+    width: 96.5%;
+    box-shadow: 0 0 0 0.7em #F5F5F5
+}
+
+#todoInput{
+    width: 90%;
+}
+
