@@ -1,5 +1,4 @@
-
-//Set Date prototype getDayName and getMonthName
+////////////////////Set Date prototype getDayName and getMonthName
 (function() {
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
@@ -13,20 +12,34 @@
     };
 })();
 
-//Add todo item
-function addItem(){
-    let now = new Date();
-    let todoItem = todoInput.value;
-    let newTodoTr = document.createElement('tr');
-    newTodoTr.id= now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
-    let newtodoTh = document.createElement('td');
-    newtodoTh.innerHTML = `
-    <input type="checkbox" class="check">
-    ${todoItem}
-    `;
+/////////////////////Load todo items
+window.onload = function() {
+    
+    let PreviousTodos = Object.entries(localStorage);
+    if(PreviousTodos.length !== 0){
+        for(let i=0; i<PreviousTodos.length; i++){
+            let id = PreviousTodos[i][0];
+            let inf = JSON.parse(localStorage.getItem(id));
+            addItem(id, inf[0], inf[1]);
+        }
+    }
+};
 
-    localStorage.setItem(newTodoTr.id, todoItem)
-    newTodoTr.appendChild(newtodoTh) ;   
+/////////////////////Add todo item
+function addItem(id, value, checked){
+    let todoItem = value;
+    let newTodoTr = document.createElement('tr');
+    
+    newTodoTr.id= id;
+    let newtodoTd = document.createElement('td');
+    if(checked == true){
+        newtodoTd.innerHTML = `<input type="checkbox" class="check" checked=${checked}>${todoItem}`;
+    }else{
+        newtodoTd.innerHTML = `<input type="checkbox" class="check">${todoItem}`;
+    }
+    
+    
+    newTodoTr.appendChild(newtodoTd) ;   
     todoInput.value = "";        
     
     newColumn = document.createElement('td');
@@ -36,22 +49,37 @@ function addItem(){
     todoList.appendChild(newTodoTr);
 
     let checkboxes = document.querySelectorAll(".check");
+    let arr = [todoItem, newTodoTr.firstChild.children[0].checked]
+    localStorage.setItem(newTodoTr.id, JSON.stringify(arr));
+   
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener('click', () => {
             if(checkbox.checked){
                 checkbox.parentElement.style.textDecoration = "line-through";
+                let array = [checkbox.nextSibling.nodeValue, checkbox.parentElement.parentElement.firstChild.children[0].checked]
+                localStorage.setItem(newTodoTr.id, JSON.stringify(array));
+                
             }else{
                 checkbox.parentElement.style.textDecoration = "none";
+                let array = [checkbox.nextSibling.nodeValue, checkbox.parentElement.parentElement.firstChild.children[0].checked]
+                localStorage.setItem(newTodoTr.id,JSON.stringify(array));
+                
+                
             }
         })
     })
 }
 
-//Delete todo item
+////////////////////Delete todo item
 function deleteItem(rowId, row){
     localStorage.removeItem(rowId);
     row.remove();
 }
+
+
+//var element = document.querySelector('.todoList');
+//element.scrollTop = element.scrollHeight;
+
 
 
 let today = new Date();
@@ -67,4 +95,9 @@ dayName.innerHTML = today.getDayName();
 let todoInput = document.querySelector("#todoInput");
 const addButton = document.querySelector("span");
 const todoList = document.querySelector("#todoListBody");
-addButton.addEventListener("click", addItem)
+
+
+
+
+
+
