@@ -8,7 +8,7 @@
 
     <body dir="ltr">
         <div class="todoList">
-            <table id="container" class="table table-striped">
+            <table class="table table-striped">
                 <thead id="todoListHead">
                     <tr id="headTr">
                         <th id="date">
@@ -22,14 +22,15 @@
                     </tr>
                 </thead>
           
-                <tbody id="todoListBody">
+                <tbody class="todoListBody">
                     
                 </tbody>
             </table>
+
             
                 <div class="input-group mb-3" id="inputBox">
                     <input type="text" id="todoInput" class="form-control" placeholder="Type something..." aria-describedby="add">
-                    <span class="input-group-text" id="add" onclick="addItem(Math.floor(Date.now() / 1000), document.getElementById('todoInput').value, false)">
+                    <span class="input-group-text" id="add" onclick="addItem(Math.floor(Date.now() / 1000), document.getElementById('todoInput').value, false, new Date() )">
                         <i class="fa fa-plus" style="font-size:20px"></i>
                     </span>
                 </div>
