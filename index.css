@@ -4,14 +4,18 @@ th{
 }
 
 .todoList{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 500px;
+}
+
+.todoList{
     width: 600px;
     border: solid 1px white;
     margin: auto;
     margin-top: 150px;
     box-shadow: 0 0 0 3em #DDD3D3;
 }
-
-.alaki {font-size: 16px;}
 
 .input-group-text{
     background-color: #F5F5F5 !important;
@@ -35,11 +39,27 @@ th{
      background-color: #fdfdfc;
 }
 
+.todoListHead{
+    height: 50px;
+     background-color: #fdfdfc;
+}
+
+
 #date{
     width: 550px;
 }
 
+.date{
+    width: 550px;
+}
+
 #month{
+    margin-left: 60px;
+    margin-top: 20px;
+    font-weight: initial;
+}
+
+.month{
     margin-left: 60px;
     margin-top: 20px;
     font-weight: initial;
@@ -50,7 +70,18 @@ th{
     font-weight: initial;
 }
 
+.year{
+    margin-left: 60px;
+    font-weight: initial;
+}
+
 #day{
+    font-size: 50px;
+    margin-top: -65px;
+    font-weight: initial;
+}
+
+.day{
     font-size: 50px;
     margin-top: -65px;
     font-weight: initial;
@@ -62,13 +93,22 @@ th{
     margin-top: -50px;
 }
 
+.dayName{
+    font-size: 30px;
+    font-weight: initial;
+    margin-top: -50px;
+}
+
 #inputBox{
     margin: 10px;
     width: 96.5%;
     box-shadow: 0 0 0 0.7em #F5F5F5
 }
 
+
 #todoInput{
     width: 90%;
 }
+
+
 
