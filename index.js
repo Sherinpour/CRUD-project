@@ -13,26 +13,23 @@
     };
 })();
 
+
 /////////////////////Load todo items
 window.onload = function() {
-    let PreviousTodos = Object.entries(localStorage);
+     let PreviousTodos = Object.entries(localStorage);
     if(PreviousTodos.length !== 0){
-        
         for(let i=0; i<PreviousTodos.length; i++){
             let id = PreviousTodos[i][0];
             let inf = JSON.parse(localStorage.getItem(id));
-
             let date = new Date(id * 1000);
+            let element = document.querySelector(`#table${date.getDate()}${date.getMonth()}`);
 
-            let element = document.querySelector(`#aaa${date.getDate()}${date.getMonth()}`);
             if(element){
-                console.log("yes hast");
                 addItem(id, inf[0], inf[1], date);
             }else{
-                console.log("create table");
                 let create = document.createElement('div');
                 create.innerHTML = `
-                <table id="aaa${date.getDate()}${date.getMonth()}" class="table table-striped">
+                <table id="table${date.getDate()}${date.getMonth()}" class="table table-striped">
                     <thead class="todoListHead">
                         <tr class="headTr">
                             <th class="date">
@@ -52,21 +49,21 @@ window.onload = function() {
     }
 };
 
+
 /////////////////////Add todo item
 function addItem(id, value, checked, date){
     let todoList = document.querySelector(`#todoListBody${date.getDate()}${date.getMonth()}`);
     let todoItem = value;
     let newTodoTr = document.createElement('tr');
-    
     newTodoTr.id= id;
     let newtodoTd = document.createElement('td');
+
     if(checked == true){
         newtodoTd.innerHTML = `<input type="checkbox" class="check" checked=${checked}>${todoItem}`;
         newtodoTd.style.textDecoration = "line-through";
     }else{
         newtodoTd.innerHTML = `<input type="checkbox" class="check">${todoItem}`;
     }
-    
     newTodoTr.appendChild(newtodoTd) ;   
     todoInput.value = "";        
     newColumn = document.createElement('td');
@@ -94,6 +91,7 @@ function addItem(id, value, checked, date){
     })
 }
 
+
 ////////////////////Delete todo item
 function deleteItem(rowId, row){
     localStorage.removeItem(rowId);
@@ -101,6 +99,7 @@ function deleteItem(rowId, row){
 }
 
 
+//////////////////create today todolist
 let today = new Date();
 let year = document.querySelector("#year");
 year.innerHTML = today.getFullYear();
@@ -113,8 +112,8 @@ dayName.innerHTML = today.getDayName();
 
 let todoInput = document.querySelector("#todoInput");
 const addButton = document.querySelector("span");
-const ddd = document.querySelector(".table");
-ddd.id = `aaa${today.getDate()}${today.getMonth()}`;
+const todayList = document.querySelector(".table");
+todayList.id = `table${today.getDate()}${today.getMonth()}`;
 const todoList = document.querySelector(".todoListBody");
 todoList.id = `todoListBody${today.getDate()}${today.getMonth()}`;
 const tables = document.querySelector(".todoList");
