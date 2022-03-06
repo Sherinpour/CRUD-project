@@ -16,16 +16,15 @@
 
 /////////////////////Load todo items
 window.onload = function() {
-     let PreviousTodos = Object.entries(localStorage);
     if(PreviousTodos.length !== 0){
         for(let i=0; i<PreviousTodos.length; i++){
-            let id = PreviousTodos[i][0];
-            let inf = JSON.parse(localStorage.getItem(id));
+            let id = Object.keys(PreviousTodos[i])[0];
+            let Values = PreviousTodos[i][Object.keys(PreviousTodos[i])[0]];
             let date = new Date(id * 1000);
             let element = document.querySelector(`#table${date.getDate()}${date.getMonth()}`);
 
             if(element){
-                addItem(id, inf[0], inf[1], date);
+                addItem(id, Values[0], Values[1], date);
             }else{
                 let create = document.createElement('div');
                 create.innerHTML = `
@@ -43,7 +42,7 @@ window.onload = function() {
                     <tbody id="todoListBody${date.getDate()}${date.getMonth()}"></tbody>
                 </table>`;
                 tables.appendChild(create);
-                addItem(id, inf[0], inf[1], date);
+                addItem(id, Values[0], Values[1], Values);
             }
         }
     }
@@ -52,6 +51,7 @@ window.onload = function() {
 
 /////////////////////Add todo item
 function addItem(id, value, checked, date){
+    let todos = JSON.parse(localStorage.getItem("todos"));
     let todoList = document.querySelector(`#todoListBody${date.getDate()}${date.getMonth()}`);
     let todoItem = value;
     let newTodoTr = document.createElement('tr');
@@ -72,21 +72,38 @@ function addItem(id, value, checked, date){
     newTodoTr.appendChild(newColumn);
     todoList.appendChild(newTodoTr);
 
-    let checkboxes = document.querySelectorAll(".check");
-    let arr = [todoItem, newTodoTr.firstChild.children[0].checked]
-    localStorage.setItem(newTodoTr.id, JSON.stringify(arr));
-   
+    let checkboxes = document.querySelectorAll(".check"); 
+    let chSituation = newTodoTr.firstChild.children[0].checked;
+    let obj ={};
+    obj[newTodoTr.id]=[todoItem, chSituation];
+    todos.push(obj);
+
+    
+    if(PreviousTodos.length == 0){
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }else{
+        if(PreviousTodos.find( element => Object.keys(element)[0] == newTodoTr.id )){
+                console.log("yes");
+        }else{
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+    }
+
+
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener('click', () => {
             if(checkbox.checked){
-                checkbox.parentElement.style.textDecoration = "line-through";
-                let array = [checkbox.nextSibling.nodeValue, checkbox.parentElement.parentElement.firstChild.children[0].checked]
-                localStorage.setItem(checkbox.parentElement.parentElement.id, JSON.stringify(array));
+                checkbox.parentElement.style.textDecoration = "line-through";               
             }else{
                 checkbox.parentElement.style.textDecoration = "none";
-                let array = [checkbox.nextSibling.nodeValue, checkbox.parentElement.parentElement.firstChild.children[0].checked]
-                localStorage.setItem(checkbox.parentElement.parentElement.id,JSON.stringify(array));
             }
+            
+            for(let i=0; i<todos.length; i++){
+                if(todos[i][checkbox.parentElement.parentElement.id]){
+                    todos[i][checkbox.parentElement.parentElement.id]=[checkbox.nextSibling.nodeValue, checkbox.parentElement.parentElement.firstChild.children[0].checked];
+                }
+            }
+            localStorage.setItem('todos', JSON.stringify(todos));
         })
     })
 }
@@ -109,6 +126,15 @@ let day = document.querySelector("#day");
 day.innerHTML = today.getDate();
 let dayName = document.querySelector("#dayName");;
 dayName.innerHTML = today.getDayName();
+let PreviousTodos = JSON.parse(localStorage.getItem("todos"));
+
+if(PreviousTodos){
+    console.log("yes");
+}else{
+    let todos = [];
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
+
 
 let todoInput = document.querySelector("#todoInput");
 const addButton = document.querySelector("span");
