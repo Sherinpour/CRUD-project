@@ -111,4 +111,11 @@ th{
 }
 
 
+.todoItemChecked{
+    text-decoration: line-through;
+}
 
+
+.todoItemUnChecked{
+    text-decoration: none;
+}
