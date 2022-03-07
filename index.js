@@ -60,9 +60,10 @@ function addItem(id, value, checked, date){
 
     if(checked == true){
         newtodoTd.innerHTML = `<input type="checkbox" class="check" checked=${checked}>${todoItem}`;
-        newtodoTd.style.textDecoration = "line-through";
+        newtodoTd.className = "todoItemChecked";
     }else{
         newtodoTd.innerHTML = `<input type="checkbox" class="check">${todoItem}`;
+        newtodoTd.className = "todoItemUnChecked";
     }
     newTodoTr.appendChild(newtodoTd) ;   
     todoInput.value = "";        
@@ -72,7 +73,7 @@ function addItem(id, value, checked, date){
     newTodoTr.appendChild(newColumn);
     todoList.appendChild(newTodoTr);
 
-    let checkboxes = document.querySelectorAll(".check"); 
+    
     let chSituation = newTodoTr.firstChild.children[0].checked;
     let obj ={};
     obj[newTodoTr.id]=[todoItem, chSituation];
@@ -82,20 +83,19 @@ function addItem(id, value, checked, date){
     if(PreviousTodos.length == 0){
         localStorage.setItem('todos', JSON.stringify(todos));
     }else{
-        if(PreviousTodos.find( element => Object.keys(element)[0] == newTodoTr.id )){
-                console.log("yes");
-        }else{
+        if(!PreviousTodos.find( element => Object.keys(element)[0] == newTodoTr.id )){
             localStorage.setItem('todos', JSON.stringify(todos));
         }
-    }
+    }   
 
 
+    let checkboxes = document.querySelectorAll('.check'); 
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener('click', () => {
             if(checkbox.checked){
-                checkbox.parentElement.style.textDecoration = "line-through";               
+                checkbox.parentElement.className = "todoItemChecked";             
             }else{
-                checkbox.parentElement.style.textDecoration = "none";
+                checkbox.parentElement.className = "todoItemUnChecked"; 
             }
             
             for(let i=0; i<todos.length; i++){
@@ -128,9 +128,7 @@ let dayName = document.querySelector("#dayName");;
 dayName.innerHTML = today.getDayName();
 let PreviousTodos = JSON.parse(localStorage.getItem("todos"));
 
-if(PreviousTodos){
-    console.log("yes");
-}else{
+if(!PreviousTodos){
     let todos = [];
     localStorage.setItem('todos', JSON.stringify(todos));
 }
@@ -143,5 +141,3 @@ todayList.id = `table${today.getDate()}${today.getMonth()}`;
 const todoList = document.querySelector(".todoListBody");
 todoList.id = `todoListBody${today.getDate()}${today.getMonth()}`;
 const tables = document.querySelector(".todoList");
-
-
