@@ -16,10 +16,10 @@
 
 /////////////////////Load todo items
 window.onload = function() {
-    if(PreviousTodos.length !== 0){
-        for(let i=0; i<PreviousTodos.length; i++){
-            let id = Object.keys(PreviousTodos[i])[0];
-            let Values = PreviousTodos[i][Object.keys(PreviousTodos[i])[0]];
+    if(Object.keys(PreviousTodos).length !== 0){
+        for(let i=0; i<Object.keys(PreviousTodos).length; i++){
+            let id = Object.keys(PreviousTodos)[i];
+            let Values = PreviousTodos[Object.keys(PreviousTodos)[i]];
             let date = new Date(id * 1000);
             let element = document.querySelector(`#table${date.getDate()}${date.getMonth()}`);
 
@@ -42,7 +42,7 @@ window.onload = function() {
                     <tbody id="todoListBody${date.getDate()}${date.getMonth()}"></tbody>
                 </table>`;
                 tables.appendChild(create);
-                addItem(id, Values[0], Values[1], Values);
+                addItem(id, Values[0], Values[1], date);
             }
         }
     }
@@ -59,59 +59,85 @@ function addItem(id, value, checked, date){
     let newtodoTd = document.createElement('td');
 
     if(checked == true){
-        newtodoTd.innerHTML = `<input type="checkbox" class="check" checked=${checked}>${todoItem}`;
+        newtodoTd.innerHTML = `<input type="checkbox" class="check" checked onclick="checkTodo(event)">${todoItem}`;
         newtodoTd.className = "todoItemChecked";
     }else{
-        newtodoTd.innerHTML = `<input type="checkbox" class="check">${todoItem}`;
+        newtodoTd.innerHTML = `<input type="checkbox" class="check" onclick="checkTodo(event)">${todoItem}`;
         newtodoTd.className = "todoItemUnChecked";
     }
     newTodoTr.appendChild(newtodoTd) ;   
     todoInput.value = "";        
     newColumn = document.createElement('td');
-    newColumn.innerHTML = `<i class="fa fa-remove" style="font-size:20px; margin-left: 40px;"></i>`;
-    newColumn.addEventListener('click', () => {deleteItem(newTodoTr.id, newTodoTr)});
+    newColumn.innerHTML = `<i class="material-icons" style="font-size:20px; margin-left:90px;" onclick="editTodo(event)">edit</i>`;
+
+
+    newColumn2 = document.createElement('td');
+    newColumn2.innerHTML = `<i class="fa fa-remove" style="font-size:20px; margin-left: 10px;"></i>`;
+
+    newColumn2.addEventListener('click', () => {deleteItem(newTodoTr.id, newTodoTr)});
+
     newTodoTr.appendChild(newColumn);
+    newTodoTr.appendChild(newColumn2);
+
     todoList.appendChild(newTodoTr);
 
     
     let chSituation = newTodoTr.firstChild.children[0].checked;
-    let obj ={};
-    obj[newTodoTr.id]=[todoItem, chSituation];
-    todos.push(obj);
-
-    
-    if(PreviousTodos.length == 0){
+    todos[newTodoTr.id]=[todoItem, chSituation];
+    if(Object.keys(PreviousTodos).length == 0){
         localStorage.setItem('todos', JSON.stringify(todos));
     }else{
-        if(!PreviousTodos.find( element => Object.keys(element)[0] == newTodoTr.id )){
+        if(!PreviousTodos[newTodoTr.id]){
             localStorage.setItem('todos', JSON.stringify(todos));
         }
-    }   
+    }
+}
 
 
-    let checkboxes = document.querySelectorAll('.check'); 
-    checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener('click', () => {
-            if(checkbox.checked){
-                checkbox.parentElement.className = "todoItemChecked";             
-            }else{
-                checkbox.parentElement.className = "todoItemUnChecked"; 
-            }
-            
-            for(let i=0; i<todos.length; i++){
-                if(todos[i][checkbox.parentElement.parentElement.id]){
-                    todos[i][checkbox.parentElement.parentElement.id]=[checkbox.nextSibling.nodeValue, checkbox.parentElement.parentElement.firstChild.children[0].checked];
-                }
-            }
-            localStorage.setItem('todos', JSON.stringify(todos));
-        })
-    })
+/////////////////////Check and unCheck todo item
+function checkTodo(event){
+    let todos = JSON.parse(localStorage.getItem("todos"));
+    if(event.target.checked){
+        event.target.parentElement.className = "todoItemChecked";             
+    }else{
+        event.target.parentElement.className = "todoItemUnChecked"; 
+    }            
+    todos[event.target.parentElement.parentElement.id] = [event.target.nextSibling.nodeValue, event.target.parentElement.parentElement.firstChild.children[0].checked];
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
+ 
+
+/////////////////////Edit todo item
+function editTodo(event){
+    let rowValues = event.target.parentElement.parentElement.childNodes[0];
+    let preCheck= event.target.parentElement.parentElement.childNodes[0].childNodes[0].checked
+    let ProwValue = rowValues.childNodes[1].data; 
+    event.target.style.display = 'none';
+    rowValues.innerHTML = `<input type="input" class="form-control" value=${ProwValue} onkeypress="newValue(event,${preCheck})">`;
+}
+
+//////////////////////set new Value of todo item
+function newValue(event, preCheck){
+    if(event.key === 'Enter'){
+        let todos = JSON.parse(localStorage.getItem("todos"));
+        let rowValues = event.target.parentElement.parentElement.childNodes[0];
+        event.target.parentElement.nextSibling.firstChild.style.display = "block";
+        todos[event.target.parentElement.parentElement.id][0] = event.target.value;
+        if(preCheck){
+            rowValues.innerHTML = `<input type="checkbox" class="check" checked onclick="checkTodo(event)">${event.target.value}`;
+        }else{
+            rowValues.innerHTML = `<input type="checkbox" class="check" onclick="checkTodo(event)">${event.target.value}`;
+        }
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }
 }
 
 
 ////////////////////Delete todo item
 function deleteItem(rowId, row){
-    localStorage.removeItem(rowId);
+    let todos = JSON.parse(localStorage.getItem("todos"));
+    delete todos[rowId];
+    localStorage.setItem('todos', JSON.stringify(todos));
     row.remove();
 }
 
@@ -127,9 +153,14 @@ day.innerHTML = today.getDate();
 let dayName = document.querySelector("#dayName");;
 dayName.innerHTML = today.getDayName();
 let PreviousTodos = JSON.parse(localStorage.getItem("todos"));
+/*const proxy = new Proxy({}, {
 
+    set: (obj, prop, value) => { ... },
+    // more props here
+  });
+*/
 if(!PreviousTodos){
-    let todos = [];
+    let todos = {};
     localStorage.setItem('todos', JSON.stringify(todos));
 }
 
