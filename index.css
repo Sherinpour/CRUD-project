@@ -110,12 +110,13 @@ th{
     width: 90%;
 }
 
+.form-control{
+    width: 130%;
+}
 
 .todoItemChecked{
     text-decoration: line-through;
 }
-
-
 .todoItemUnChecked{
     text-decoration: none;
 }
