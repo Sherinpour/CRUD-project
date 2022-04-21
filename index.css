@@ -1,20 +1,41 @@
-th{
-    text-align: left;
-    font-weight: initial;
+:root {
+    --background-color: white;
+    --text-color: black;
+    --table-tr-color: black;
+    --table-striped-bg: rgba(0, 0, 0, 0.05);
+    --table-box-shadow-color: #DDD3D3;
+    --theme-toogle-btn-color: black;
+    
 }
 
-.todoList{
+.todoList {
+    background-color: var(--background-color);
+    color: var(--text-color);
     overflow-x: hidden;
     overflow-y: auto;
     height: 500px;
-}
-
-.todoList{
     width: 600px;
-    border: solid 1px white;
+    border: solid 1px var(--background-color);
     margin: auto;
     margin-top: 150px;
-    box-shadow: 0 0 0 3em #DDD3D3;
+    box-shadow: 0 0 0 3em var(--table-box-shadow-color);
+}
+
+.table{
+    color: var(--text-color);
+}
+
+.table-striped > tbody > tr> td{
+    color: var(--table-tr-color) !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(2n+1) > td{ 
+    --bs-table-accent-bg: var(--table-striped-bg)!important;
+}
+
+th{
+    text-align: left;
+    font-weight: initial;
 }
 
 .input-group-text{
@@ -22,12 +43,9 @@ th{
     border: 1px solid #F5F5F5 !important;
 }
 
-.mb-3 {
-    margin-bottom: 0rem !important;
-}
 
 .table > :not(:last-child) > :last-child > * {
-    border-bottom-color: white !important;
+    border-bottom-color: var(--background-color) !important;
 }
 
 #container{
@@ -36,12 +54,12 @@ th{
 
 #todoListHead{
     height: 50px;
-     background-color: #fdfdfc;
+    background-color: var(--background-color);
 }
 
 .todoListHead{
     height: 50px;
-     background-color: #fdfdfc;
+    background-color: var(--background-color);
 }
 
 
@@ -100,9 +118,15 @@ th{
 }
 
 #inputBox{
-    margin: 10px;
-    width: 96.5%;
-    box-shadow: 0 0 0 0.7em #F5F5F5
+    position: fixed;
+    margin-top: -55px;
+    margin-left: 480px;
+    width: 570px;
+    box-shadow: 0 0 0 0.7em var(--background-color)
+}
+
+.todoInputBox{
+    position: relative;
 }
 
 
@@ -114,9 +138,75 @@ th{
     width: 130%;
 }
 
+.check{
+    margin-right: 12px;
+}
+
 .todoItemChecked{
     text-decoration: line-through;
 }
+
 .todoItemUnChecked{
     text-decoration: none;
+}
+
+
+
+.bi.bi-brightness-high{
+    color: var(--theme-toogle-btn-color);
+}
+
+
+.theme_toogle {
+    text-align: right;
+    margin-right: -15px;
+    height: 20px;
+
+}
+
+.theme_toogle_btn {
+    float: right;
+    min-width: 30px;
+    min-height: 30px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.theme_toogle_btn:hover {
+    background-size: 85%;
+    transition: 0.5s;
+    transform: rotate(90deg);
+}
+
+.bi.bi-brightness-high{
+    color: var(--theme-toogle-btn-color);
+}
+
+.bi.bi-pencil.edit-icon{
+    font-size: 20px;
+    margin-left: 120px;
+}
+
+.bi.bi-journal-x.remove-icon{
+    font-size: 20px;
+     margin-left: 10px;
+}
+
+.bi.bi-save{
+    font-size: 20px;
+    margin-left: 120px;
+}
+
+.bi.bi-plus-square{
+    font-size: 20px;
+}
+
+.bi.bi-brightness-high{
+    color: var(--theme-toogle-btn-color);
 }
