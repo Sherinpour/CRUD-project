@@ -23,7 +23,7 @@ dayName.innerHTML = today.getDayName();
 let PreviousTodos = getTodos();
 if(!PreviousTodos){
     let todos = {};
-    localStorage.setItem('todos', JSON.stringify(todos));
+    updateTodos(todos);
 }
 var root = document.querySelector(':root');
 let todoInput = document.querySelector("#todoInput");
@@ -109,7 +109,7 @@ function addItem(value, id=generateId(), checked=false, date){
     newtodoTd.innerHTML = `<input type="checkbox" class="check"  onclick="checkTodo(event)">${todoValue}`;
     newtodoTd.className = checked ? 'todoItemChecked' : 'todoItemUnChecked';
     newtodoTd.checked = checked ? true : false;
-    newTodoTr.appendChild(newtodoTd) ;   
+    newTodoTr.appendChild(newtodoTd);   
     todoInput.value = "";  
 
     editTodoColumn = document.createElement('td');
@@ -143,35 +143,36 @@ function checkTodo(event){
         event.target.parentElement.className = "todoItemUnChecked"; 
     }                
     todos[event.target.parentElement.parentElement.id] = [event.target.nextSibling.nodeValue, event.target.parentElement.parentElement.firstChild.children[0].checked];
-    localStorage.setItem('todos', JSON.stringify(todos));
+    updateTodos(todos);
 }
  
 function editTodo(event){
     let rowValues = event.target.parentElement.parentElement.childNodes[0];
     let preCheck= event.target.parentElement.parentElement.childNodes[0].childNodes[0].checked
-    let ProwValue = rowValues.childNodes[1].data; 
+    let prowValue = rowValues.childNodes[1].data;
+    let saveButton = event.target.parentElement.childNodes[1]; 
     event.target.style.display = 'none';
-    event.target.parentElement.childNodes[1].style.display='block';
-    event.target.parentElement.childNodes[1].addEventListener('click', () => {setNewValue(event,preCheck)});
-    rowValues.innerHTML = `<input type="input" class="form-control" value=${ProwValue}>`;
+    saveButton.style.display='block';
+    saveButton.addEventListener('click', () => {setNewValue(event,preCheck)});
+    rowValues.innerHTML = `<input type="input" class="form-control" value=${prowValue}>`;
 }
 
 function setNewValue(event, preCheck){
     let todos = getTodos();
     let rowValue = event.target.parentElement.parentElement.childNodes[0];
     let newValue = event.target.parentElement.previousSibling.firstChild.value;
-    event.target.parentElement.childNodes[1].style.display='none';
+    event.target.parentElement.childNodes[1].style.display="none";
     event.target.parentElement.childNodes[0].style.display = "block";
     todos[event.target.parentElement.parentElement.id][0] = newValue;
     rowValue.innerHTML = `<input type="checkbox" class="check" onclick="checkTodo(event)">${newValue}`;
     if(preCheck){rowValue.checked = true;}
-    localStorage.setItem('todos', JSON.stringify(todos));
+    updateTodos(todos);
 }
 
 function deleteItem(rowId, row){
     let todos = getTodos();
     delete todos[rowId];
-    localStorage.setItem('todos', JSON.stringify(todos));
+    updateTodos(todos);
     row.remove();
 }
 
