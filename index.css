@@ -191,20 +191,24 @@ th{
 .bi.bi-pencil.edit-icon{
     font-size: 20px;
     margin-left: 120px;
+    cursor: pointer;
 }
 
 .bi.bi-journal-x.remove-icon{
     font-size: 20px;
-     margin-left: 10px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .bi.bi-save{
     font-size: 20px;
     margin-left: 120px;
+    cursor: pointer;
 }
 
 .bi.bi-plus-square{
     font-size: 20px;
+    cursor: pointer;
 }
 
 .bi.bi-brightness-high{
