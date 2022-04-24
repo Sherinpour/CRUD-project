@@ -5,7 +5,11 @@
     --table-striped-bg: rgba(0, 0, 0, 0.05);
     --table-box-shadow-color: #DDD3D3;
     --theme-toogle-btn-color: black;
-    
+}
+
+body{
+    display: flex;
+    flex-direction: column;
 }
 
 .todoList {
@@ -17,8 +21,8 @@
     width: 600px;
     border: solid 1px var(--background-color);
     margin: auto;
-    margin-top: 150px;
-    box-shadow: 0 0 0 3em var(--table-box-shadow-color);
+    margin-top: 100px;
+    box-shadow: 0 2em 0 4em var(--table-box-shadow-color);
 }
 
 .table{
@@ -42,7 +46,6 @@ th{
     background-color: #F5F5F5 !important;
     border: 1px solid #F5F5F5 !important;
 }
-
 
 .table > :not(:last-child) > :last-child > * {
     border-bottom-color: var(--background-color) !important;
@@ -118,17 +121,14 @@ th{
 }
 
 #inputBox{
-    position: fixed;
-    margin-top: -55px;
-    margin-left: 480px;
-    width: 570px;
+    width: 580px;
+    margin-top: 10px;
     box-shadow: 0 0 0 0.7em var(--background-color)
 }
 
 .todoInputBox{
-    position: relative;
+    margin: auto;
 }
-
 
 #todoInput{
     width: 90%;
@@ -139,29 +139,30 @@ th{
 }
 
 .check{
-    margin-right: 12px;
+    cursor: pointer;
 }
 
-.todoItemChecked{
+.todo-value{
+    margin-left: 22px;
+    margin-top: -25px;
+}
+
+.todoItemChecked > .todo-value{
     text-decoration: line-through;
 }
 
-.todoItemUnChecked{
+.todoItemUnChecked > .todo-value{
     text-decoration: none;
 }
-
-
 
 .bi.bi-brightness-high{
     color: var(--theme-toogle-btn-color);
 }
 
-
 .theme_toogle {
     text-align: right;
     margin-right: -15px;
     height: 20px;
-
 }
 
 .theme_toogle_btn {
