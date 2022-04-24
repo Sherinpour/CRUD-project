@@ -39,7 +39,6 @@ window.onload = function() {
     makePreviousTodos()
 };
 
-
 function makePreviousTodos(){
     if(Object.keys(PreviousTodos).length !== 0){
         for(let i=0; i<Object.keys(PreviousTodos).length; i++){
@@ -98,7 +97,6 @@ function getTodosElementByDate(date = new Date()){
     return document.querySelector(`#todoListBody${date.getDate()}${date.getMonth()}`)
 }
 
-
 function addItem(value, id=generateId(), checked=false, date){
     let todos = getTodos();
     let todoList = getTodosElementByDate(date);
@@ -106,9 +104,9 @@ function addItem(value, id=generateId(), checked=false, date){
     let newTodoTr = document.createElement('tr');
     newTodoTr.id = id;
     let newtodoTd = document.createElement('td');
-    newtodoTd.innerHTML = `<input type="checkbox" class="check"  onclick="checkTodo(event)">${todoValue}`;
+    newtodoTd.innerHTML = `<input type="checkbox" class="check"  onclick="checkTodo(event)"><p class="todo-value">${todoValue}</p>`;
     newtodoTd.className = checked ? 'todoItemChecked' : 'todoItemUnChecked';
-    newtodoTd.checked = checked ? true : false;
+    newtodoTd.querySelector('input').checked = checked ? true : false;
     newTodoTr.appendChild(newtodoTd);   
     todoInput.value = "";  
 
@@ -137,35 +135,38 @@ function addItem(value, id=generateId(), checked=false, date){
 
 function checkTodo(event){
     let todos = getTodos();
-    if(event.target.checked){
-        event.target.parentElement.className = "todoItemChecked";             
+    let rowId = event.target.parentElement.parentElement.id;
+    let row = document.getElementById(rowId);
+    let rowValue = row.querySelector(".todo-value");
+    if(row.querySelector(".check").checked){
+        rowValue.parentElement.className = "todoItemChecked";             
     }else{
-        event.target.parentElement.className = "todoItemUnChecked"; 
+        rowValue.parentElement.className = "todoItemUnChecked"; 
     }                
-    todos[event.target.parentElement.parentElement.id] = [event.target.nextSibling.nodeValue, event.target.parentElement.parentElement.firstChild.children[0].checked];
+    todos[rowId] = [rowValue.textContent, row.querySelector(".check").checked];
     updateTodos(todos);
 }
  
 function editTodo(event){
-    let rowValues = event.target.parentElement.parentElement.childNodes[0];
-    let preCheck= event.target.parentElement.parentElement.childNodes[0].childNodes[0].checked
-    let prowValue = rowValues.childNodes[1].data;
-    let saveButton = event.target.parentElement.childNodes[1]; 
-    event.target.style.display = 'none';
+    let rowId = event.target.parentElement.parentElement.id;
+    let row = document.getElementById(rowId);
+    let rowValue = row.querySelector(".todo-value");
+    let saveButton = row.querySelector(".bi-save"); 
+    let editButton = row.querySelector(".edit-icon");
+    editButton.style.display = 'none';
     saveButton.style.display='block';
-    saveButton.addEventListener('click', () => {setNewValue(event,preCheck)});
-    rowValues.innerHTML = `<input type="input" class="form-control" value=${prowValue}>`;
+    rowValue.parentElement.innerHTML = `<input type="input" class="form-control" value="${rowValue.innerText}">`;
+    saveButton.addEventListener('click', () => {setNewValue(saveButton, editButton, row)});
 }
 
-function setNewValue(event, preCheck){
+function setNewValue(saveButton, editButton, row){
     let todos = getTodos();
-    let rowValue = event.target.parentElement.parentElement.childNodes[0];
-    let newValue = event.target.parentElement.previousSibling.firstChild.value;
-    event.target.parentElement.childNodes[1].style.display="none";
-    event.target.parentElement.childNodes[0].style.display = "block";
-    todos[event.target.parentElement.parentElement.id][0] = newValue;
-    rowValue.innerHTML = `<input type="checkbox" class="check" onclick="checkTodo(event)">${newValue}`;
-    if(preCheck){rowValue.checked = true;}
+    let newValues =row.querySelector(".form-control");
+    saveButton.style.display = "none";
+    editButton.style.display = "block";
+    todos[row.id][0] = newValues.value;
+    newValues.parentElement.innerHTML = `<input type="checkbox" class="check" onclick="checkTodo(event)"><p class="todo-value">${newValues.value}</p>`;
+    if(row.querySelector(".check").checked){newValues.checked = true;}
     updateTodos(todos);
 }
 
@@ -185,7 +186,6 @@ function themeSwitcher(event){
         root.style.setProperty('--table-striped-bg', '#393939')
         root.style.setProperty('--table-box-shadow-color', '#393939')
         root.style.setProperty('--theme-toogle-btn-color', '#f0ecec')
-
     } else {
         root.style.setProperty('--background-color', 'white')
         root.style.setProperty('--text-color', 'black')
