@@ -2,6 +2,8 @@
   
 The project is a single webpage containing different list items and a text area to add custom tasks.
 
+![image](https://user-images.githubusercontent.com/75546661/166106424-8c6a820e-9135-44bd-b65d-cfade7e986ea.png)
+
 <h2> Features </h2>
   <ul>
     <li> Add your daily Task to complete </li>
