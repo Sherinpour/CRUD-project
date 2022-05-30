@@ -55,12 +55,12 @@ function makePreviousTodos(){
                 <table id="table${date.getDate()}${date.getMonth()}" class="table table-striped">
                     <thead class="todoListHead">
                         <tr class="headTr">
-                            <th class="date">
+                            <td class="date">
                                 <div class="month">${date.getMonthName()}</div>
                                 <div class="year">${date.getFullYear()}</div>
                                 <div class="day">${date.getDate()}</div>
-                            </th>
-                            <th><div class="dayName">${date.getDayName()}</div></th>
+                            </td>
+                            <td><div class="dayName">${date.getDayName()}</div></td>
                         </tr>
                     </thead>
                     <tbody id="todoListBody${date.getDate()}${date.getMonth()}"></tbody>
