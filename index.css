@@ -215,3 +215,35 @@ th{
 .bi.bi-brightness-high{
     color: var(--theme-toogle-btn-color);
 }
+
+@media screen and (max-width: 360px){
+    body{
+        background-color: var(--background-color);
+    }
+
+    table{
+        border-spacing: 10px;
+    }
+
+    .todoList{
+        width: auto;
+        height: auto;
+        margin-top: 0;
+        box-shadow: 0 0 0 0;
+    }
+
+    .todoInputBox{
+        position: fixed;
+        bottom: 0;
+    }
+
+    #inputBox{
+        width: 352px;
+        margin-bottom: 0 !important;
+        margin-left: 5px;
+    }
+
+    .input-group{
+        flex-wrap: unset;
+    }
+}
