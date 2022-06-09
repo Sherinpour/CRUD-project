@@ -1,14 +1,45 @@
+:root {
+    --background-color: white;
+    --text-color: black;
+    --table-tr-color: black;
+    --table-striped-bg: rgba(0, 0, 0, 0.05);
+    --table-box-shadow-color: #DDD3D3;
+    --theme-toogle-btn-color: black;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+.todoList {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 500px;
+    width: 600px;
+    border: solid 1px var(--background-color);
+    margin: auto;
+    margin-top: 100px;
+    box-shadow: 0 2em 0 4em var(--table-box-shadow-color);
+}
+
+.table{
+    color: var(--text-color);
+}
+
+.table-striped > tbody > tr> td{
+    color: var(--table-tr-color) !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(2n+1) > td{ 
+    --bs-table-accent-bg: var(--table-striped-bg)!important;
+}
+
 th{
     text-align: left;
     font-weight: initial;
-}
-
-.todoList{
-    width: 600px;
-    border: solid 1px white;
-    margin: auto;
-    margin-top: 150px;
-    box-shadow: 0 0 0 3em #DDD3D3;
 }
 
 .input-group-text{
@@ -16,12 +47,8 @@ th{
     border: 1px solid #F5F5F5 !important;
 }
 
-.mb-3 {
-    margin-bottom: 0rem !important;
-}
-
 .table > :not(:last-child) > :last-child > * {
-    border-bottom-color: white !important;
+    border-bottom-color: var(--background-color) !important;
 }
 
 #container{
@@ -30,14 +57,30 @@ th{
 
 #todoListHead{
     height: 50px;
-     background-color: #fdfdfc;
+    background-color: var(--background-color);
 }
+
+.todoListHead{
+    height: 50px;
+    background-color: var(--background-color);
+}
+
 
 #date{
     width: 550px;
 }
 
+.date{
+    width: 550px;
+}
+
 #month{
+    margin-left: 60px;
+    margin-top: 20px;
+    font-weight: initial;
+}
+
+.month{
     margin-left: 60px;
     margin-top: 20px;
     font-weight: initial;
@@ -48,7 +91,18 @@ th{
     font-weight: initial;
 }
 
+.year{
+    margin-left: 60px;
+    font-weight: initial;
+}
+
 #day{
+    font-size: 50px;
+    margin-top: -65px;
+    font-weight: initial;
+}
+
+.day{
     font-size: 50px;
     margin-top: -65px;
     font-weight: initial;
@@ -60,13 +114,136 @@ th{
     margin-top: -50px;
 }
 
+.dayName{
+    font-size: 30px;
+    font-weight: initial;
+    margin-top: -50px;
+}
+
 #inputBox{
-    margin: 10px;
-    width: 96.5%;
-    box-shadow: 0 0 0 0.7em #F5F5F5
+    width: 580px;
+    margin-top: 10px;
+    box-shadow: 0 0 0 0.7em var(--background-color)
+}
+
+.todoInputBox{
+    margin: auto;
 }
 
 #todoInput{
     width: 90%;
 }
 
+.form-control{
+    width: 130%;
+}
+
+.check{
+    cursor: pointer;
+}
+
+.todo-value{
+    margin-left: 22px;
+    margin-top: -25px;
+}
+
+.todoItemChecked > .todo-value{
+    text-decoration: line-through;
+}
+
+.todoItemUnChecked > .todo-value{
+    text-decoration: none;
+}
+
+.bi.bi-brightness-high{
+    color: var(--theme-toogle-btn-color);
+}
+
+.theme_toogle {
+    text-align: right;
+    margin-right: -15px;
+    height: 20px;
+}
+
+.theme_toogle_btn {
+    float: right;
+    min-width: 30px;
+    min-height: 30px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.theme_toogle_btn:hover {
+    background-size: 85%;
+    transition: 0.5s;
+    transform: rotate(90deg);
+}
+
+.bi.bi-brightness-high{
+    color: var(--theme-toogle-btn-color);
+}
+
+.bi.bi-pencil.edit-icon{
+    font-size: 20px;
+    margin-left: 120px;
+    cursor: pointer;
+}
+
+.bi.bi-journal-x.remove-icon{
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.bi.bi-save{
+    font-size: 20px;
+    margin-left: 120px;
+    cursor: pointer;
+}
+
+.bi.bi-plus-square{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.bi.bi-brightness-high{
+    color: var(--theme-toogle-btn-color);
+}
+
+@media screen and (max-width: 360px){
+    body{
+        background-color: var(--background-color);
+    }
+
+    table{
+        border-spacing: 10px;
+    }
+
+    .todoList{
+        width: auto;
+        height: auto;
+        margin-top: 0;
+        box-shadow: 0 0 0 0;
+    }
+
+    .todoInputBox{
+        position: fixed;
+        bottom: 0;
+    }
+
+    #inputBox{
+        width: 352px;
+        margin-bottom: 0 !important;
+        margin-left: 5px;
+    }
+
+    .input-group{
+        flex-wrap: unset;
+    }
+}
